@@ -15,51 +15,6 @@
 	**/  
 	var elems;
 
-	function isElementInViewportOld (el) {
-		var rect;
-
-	    // for jQuery element or nodelist resulted from document.querySelectorAll
-	    if (el instanceof Array || (typeof jQuery !== 'undefined' && el instanceof jQuery)) {
-	        el = el[0];
-	    }
-
-	    rect = el.getBoundingClientRect();
-
-	    return (
-	        rect.top >= 0 &&
-	        rect.left >= 0 &&
-	        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-	        rect.right <= (window.innerWidth || document.documentElement.clientWidth) 
-	    );
-	};	
-
-	function isElementPartiallyInViewport (el, partial, measure) {
-		var rect, 
-			topBorder,
-			bottomBorder;
-
-	    // for jQuery element or nodelist resulted from document.querySelectorAll
-	    if (el instanceof Array || (typeof jQuery !== 'undefined' && el instanceof jQuery)) {
-	        el = el[0];
-	    }
-
-	    rect = el.getBoundingClientRect();
-
-	    switch (partial) {
-	    	case 'PEEK': topBorder = rect.top + rect.height * measure;
-	    				 bottomBorder = rect.bottom - rect.height * measure; break;
-	    }
-
-	    return (
-	    	( rect.top >= 0 &&
-	        rect.left >= 0 &&
-	        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-	        rect.right <= (window.innerWidth || document.documentElement.clientWidth) ) ||
-	        ( bottomBorder >= 0 && topBorder <= (window.innerHeight || document.documentElement.clientHeight) )
-	    );
-	};	
-
-
 	isElTotallyInViewport = function (rect) {
 		return (
 	        rect.top >= 0 &&
@@ -69,7 +24,7 @@
 	    );
 	}
 
-	function isElInViewport (el, mode, space) {
+	isElInViewport = function (el, mode, space) {
 		var rect, 
 			topBorder,
 			bottomBorder;
