@@ -99,7 +99,7 @@
 
 	};	
 
-	function getElems() {
+	getElems = function () {
 		var nodeList = document.querySelectorAll('.' + _config.defaultClass),
 			res = [];
 		for(var i = 0, e; e = nodeList[i]; i++) {
