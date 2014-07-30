@@ -27,7 +27,8 @@
 	isElInViewport = function (el, mode, space) {
 		var rect, 
 			topBorder,
-			bottomBorder;
+			bottomBorder,
+			middleScreen;
 
 	    // for jQuery element or nodelist resulted from document.querySelectorAll
 	    if (el instanceof Array || (typeof jQuery !== 'undefined' && el instanceof jQuery)) {
@@ -42,13 +43,18 @@
 	    				 	bottomBorder = rect.bottom - rect.height * space; 
     				 	 	return isElTotallyInViewport(rect) || 
     				 	 		( bottomBorder >= 0 && topBorder <= (window.innerHeight || document.documentElement.clientHeight) );
-	    				 break;
+	    				break;
 			case 'MARGIN':
 			case 'margin': 	topBorder = rect.top - space;
 	    				 	bottomBorder = rect.bottom + space; 
     				 	   	return isElTotallyInViewport(rect) &&
     				 	 	( topBorder >= 0 && bottomBorder <= (window.innerHeight || document.documentElement.clientHeight) );
-	    				 break; 
+	    				break; 
+			case 'CENTER':
+			case 'center': 	middleLine = parseInt(rect.bottom - (rect.height / 2), 10); 
+							middleScreen = parseInt(((window.innerHeight || document.documentElement.clientHeight)/2), 10);
+    				 	   	return middleLine >= middleScreen - 5 && middleLine < middleScreen + 5;
+    				 	break; 	    				 
 			default: return isElTotallyInViewport(rect);
 	    }
 
@@ -64,6 +70,15 @@
 		}
 		return res;
 	}
+
+	function roundTo (num, to) {
+    var remainder = num%to;
+    if (remainder <= (to/2)) { 
+        return num-remainder;
+    } else {
+        return num+to-remainder;
+    }
+}
 
 	function update(el, index) {
 		// get classes from data-attr
@@ -130,8 +145,8 @@
 	handler = function() {
     	for(var i = 0, e ; e =  elems[i]; i++) {
     		var mode = e.dataset.awtyMode,
-    			space = parseFloat(e.dataset.awtySpace,10);
-    		if(mode && space) {
+    			space = parseFloat(e.dataset.awtySpace,10) ? parseFloat(e.dataset.awtySpace,10): 0;
+    		if(mode) {
     			if(isElInViewport(e, mode, space)) {
     				update(e, i);		    				
     			}
