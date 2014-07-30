@@ -1,0 +1,86 @@
+body {
+  background: #fafafa;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+}
+
+.base {
+  margin: 50px auto 0 auto;
+  width: 700px;
+  font-size: 18px;
+  font-weight: 200;
+  line-height: 30px;
+  border-radius: 6px;
+  padding: 60px;
+  border: 1px solid grey;
+   -webkit-transition: all 500ms ease-out;
+    -moz-transition: all 500ms ease-out;
+    -o-transition: all 500ms ease-out;
+    transition: all 500ms ease-out;
+  overflow: hidden;
+  max-height: 2000px;
+}
+
+.main {
+  margin: 50px auto 0 auto;
+  width: 700px;
+  font-size: 18px;
+  font-weight: 200;
+  line-height: 30px;
+  border-radius: 6px;
+  padding: 60px;
+   -webkit-transition: all 500ms ease-out;
+    -moz-transition: all 500ms ease-out;
+    -o-transition: all 500ms ease-out;
+    transition: all 500ms ease-out;
+  overflow: hidden;
+  max-height: 2000px;
+}
+
+.base h1, .main h1 {
+  font-size: 60px;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+
+.red {
+  background: red;
+  color: white;
+}
+
+.blue {
+  background: blue;
+  color: white;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+.moved {
+  transform: translateX(-1500px);
+}
+
+.gone {
+    /*display: none;*/
+    max-height: 0;
+    border: 0;
+    padding: 0;
+}
+
+.green {
+  color: white;
+    background: green;
+}
+
+.bigger {
+  padding: 100px;
+}
