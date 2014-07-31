@@ -8,7 +8,7 @@ It's small (~3kB) and pretty configurable.
 
 # Demo
 
-You can find a live demo [here](http://www.antoniocapelo.github.io/awty)
+You can find a live demo [here](http://antoniocapelo.github.io/awty)
 
 
 # Usage
