@@ -1,0 +1,125 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <title>Are We There Yet? - awty - JS Tool for on-scroll stuf</title>
+        <meta name="description" content="">
+        <meta name="Are We There Yet" content="width=device-width">
+        <link rel="shortcut icon" href="/favicon.ico">
+
+        <link rel="stylesheet" href="https://rawgit.com/antoniocapelo/awty/master/styles/main.css">
+    </head>
+    <body>
+        <!--[if lt IE 10]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <style type="text/css">
+        .button {
+          margin: 5px;
+          margin-top: 20px;
+          background: ghostwhite;
+          color: black;
+          padding: 10px;
+          border-radius: 5px;
+          text-decoration: none;
+        }
+
+        .button:hover {
+          text-decoration: underline;
+        }
+
+        </style>
+        <div class="main">
+          <h1>Are We There Yet?</h1>
+          <p>Simple JS tool for Adding/Removing classes on scroll</p>
+          <a class="button" href="https://github.com/antoniocapelo/awty/archive/master.zip" title="Download antoniocapelo/awty as a zip file">Download zip file</a> <a class="button" href="https://github.com/antoniocapelo/awty">Fork this repo</a>
+        </div>
+        <div class="base ">
+          <h1>Normal div</h1>
+          <p>Stuff</p>
+          <ul>
+            <li>one</li>
+
+            <li>two</li>
+          </ul>
+        </div>
+        <div class="base ">
+          <h1>Normal div</h1>
+          <p>Stuff</p>
+          <ul>
+            <li>one</li>
+
+            <li>two</li>
+          </ul>
+        </div>
+        <div class="base awty"  data-awty="red">
+          <h1>Add one class when visible</h1>
+          <p>How?</p>
+          <ul>
+            <li>Add <code>data-awty="classname"</code> on the html element</li>
+
+            <li>voilá :) </li>
+          </ul>
+        </div>
+        <div class="base awty"  data-awty="green,bigger">
+          <h1>Add many classes when visible</h1>
+          <p>How?</p>
+          <ul>
+            <li>Add <code>data-awty="classname1,classname2"</code> on the html element</li>
+
+            <li>voilá</li>
+          </ul>
+        </div>
+        <div class="base awty center" data-awty="blue" data-awty-mode="center">
+          <h1>Add classes when element is centered</h1>
+          <p>How?</p>
+          <ul>
+            <li>Add <code>data-awty="classname"</code> </li>
+
+            <li><code>data-awty-mode="center"</code> </li>
+          </ul>
+        </div>        
+        <div class="base awty hidden"  data-awty="hidden" data-awty-remove="true">
+          <h1>Or remove classes when visible</h1>
+          <p>How?</p>
+          <ul>
+            <li>Add <code>data-awty="classname"</code> on the html element</li>
+
+            <li><code>data-awty-remove="true"</code> to use remove mode</li>
+          </ul>
+        </div>
+        <div class="base awty" data-awty="lightblue" data-awty-mode="peek" data-awty-space="0.35">
+          <h1>Add class when a % of element is visible</h1>
+          <p>How?</p>
+          <ul>
+            <li>Add <code>data-awty="classname"</code> on the html element</li>
+            
+            <li>Define mode <code>data-awty-mode="peek"</code></li>
+
+            <li>Define percentage <code>data-awty-space="0.35"</code></li>
+          </ul>
+        </div> 
+        <div class="base awty" data-awty="red" data-awty-mode="margin" data-awty-space="150">
+          <h1>Or Add classes after a certain margin</h1>
+          <p>How?</p>
+          <ul>
+            <li>Add <code>data-awty="classname"</code> on the html element</li>
+            
+            <li>Define mode <code>data-awty-mode="peek"</code></li>
+
+            <li>Define percentage <code>data-awty-space="0.35"</code></li>
+          </ul>
+        </div>                 
+        
+        <div class="base awty"  data-awty="green">
+                  <h1>And that's it :) </h1>
+        </div>
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        
+        <script src="https://rawgit.com/antoniocapelo/awty/master/dist/awty.min.js"></script>
+        <script>var awtyInstance = new Awty(); awtyInstance.init();</script>
+</body>
+</html>
