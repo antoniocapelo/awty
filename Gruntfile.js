@@ -27,12 +27,6 @@ module.exports = function(grunt) {
                 files: 'scripts/**.js',
                 task: 'jshint:scripts'
             }
-            // ,
-
-            // styles: {
-            //     files: 'styles/**.less',
-            //     task: 'less:styles'
-            // }
         }
 
     });
