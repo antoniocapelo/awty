@@ -39,7 +39,7 @@ To add/remove more than one class, just separate each classname by a comma (``da
 
 ## Modes
 
-Awty has 3 modes of operation:
+Awty has 4 modes of operation:
 
 * **default**: adds the class as soon as the element is completely on the window viewport
 * **peek**: adds the class when a certain percentage of the element is visible:
