@@ -27,7 +27,7 @@
 								defaultClass: 'awty'
 							};
 
-			for (key in _config) {
+			for (var key in _config) {
 				if (_config.hasOwnProperty(key)) {
 					if (config && typeof config[key] !== 'undefined') {
 						_config[key] = config[key];
@@ -42,7 +42,7 @@
 			        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
 			        rect.right <= (window.innerWidth || document.documentElement.clientWidth) 
 			    );
-			}
+			};
 
 			isElInViewport = function (el, mode, space) {
 				var rect, 
@@ -64,19 +64,16 @@
 			    				 	bottomBorder = rect.bottom - rect.height * space; 
 		    				 	 	return isElTotallyInViewport(rect) || 
 		    				 	 		( bottomBorder >= 0 && topBorder <= (window.innerHeight || document.documentElement.clientHeight) );
-			    				break;
 					case 'MARGIN':
 					case 'margin': 	space = space ? space : 0;
 									topBorder = rect.top - space;
 			    				 	bottomBorder = rect.bottom + space; 
 		    				 	   	return ( topBorder >= 0 && bottomBorder <= (window.innerHeight || document.documentElement.clientHeight) );
-			    				break; 
 					case 'CENTER':
 					case 'center': 	space = space ? space : 20;
 									middleLine = parseInt(rect.bottom - (rect.height / 2), 10); 
 									middleScreen = parseInt(((window.innerHeight || document.documentElement.clientHeight)/2), 10);
 		    				 	   	return middleLine >= middleScreen - space && middleLine < middleScreen + space;
-		    				 	break; 	    				 
 					default: return isElTotallyInViewport(rect);
 			    }
 			};	
@@ -84,13 +81,13 @@
 			getElems = function() {
 				var nodeList = document.querySelectorAll('.' + _config.defaultClass),
 					res = [];
-				for(var i = 0, e; e = nodeList[i]; i++) {
+				for(var i = 0, e; e = nodeList[i]; i++) { // jshint ignore:line
 					if(e.dataset.awty) {
 						res.push(e);
 					}
 				}
 				return res;
-			}
+			};
 
 			roundTo = function(num, to) {
 			    var remainder = num%to;
@@ -99,33 +96,33 @@
 			    } else {
 			        return num+to-remainder;
 			    }
-			}
+			};
 
 			removeClass = function (el, classes) {
 				if (el.classList) {
-					for(var i = 0, c; c = classes[i]; i++) {
+					for(var i = 0, c; c = classes[i]; i++) { // jshint ignore:line
 						el.classList.remove(c);							
 					}
 				} else {
-					for(var i = 0, c; c = classes[i]; i++) {
+					for(var i = 0, c; c = classes[i]; i++) { // jshint ignore:line
 						el.className = el.className.replace(new RegExp('(^|\\b)' + (c).split(' ').join('|') + '(\\b|$)', 'gi'), ' ');					
 					}
 				}				  	
-			}
+			};
 
 			addClass = function (el, classes) {
 				if (el.classList) {
-					for(var i = 0, c; c = classes[i]; i++) {
+					for(var i = 0, c; c = classes[i]; i++) { // jshint ignore:line
 						el.classList.add(c);					
 					}
 					  
 				} else {
-					for(var i = 0, c; c = classes[i]; i++) {
+					for(var i = 0, c; c = classes[i]; i++) { // jshint ignore:line
 						el.className += ' ' + c;
 					}
 					  
 				}
-			}
+			};
 
 			update = function(el, index) {
 				// get classes from data-attr
@@ -133,7 +130,7 @@
 				if (el.dataset.awtyRemove && el.dataset.awtyRemove === 'true') {
 						removeClass(el, classes);					
 				} else {
-					addClass(el, classes)
+					addClass(el, classes);
 				}
 				if (_config.tidy === true) {
 					elems.splice(index,1);
@@ -141,7 +138,7 @@
 						removeListeners();
 					}
 				}
-			}
+			};
 
 			addListeners = function() {
 				if (window.addEventListener) {
@@ -155,7 +152,7 @@
 				    attachEvent('onscroll', handler);
 				    attachEvent('onresize', handler);
 				}
-			}
+			};
 
 			removeListeners = function() {
 				if (window.removeEventListener) {
@@ -169,10 +166,10 @@
 				    detachEvent('onscroll', handler);
 				    detachEvent('onresize', handler);
 				}
-			}
+			};
 
 			handler = function() {
-		    	for(var i = 0, e ; e =  elems[i]; i++) {
+		    	for(var i = 0, e ; e =  elems[i]; i++) { // jshint ignore:line
 		    		var mode = e.dataset.awtyMode,
 		    			space = parseFloat(e.dataset.awtySpace,10);
 		    		if(mode) {
@@ -185,7 +182,7 @@
 				    	}	
 		    		}
 			    }
-			}	
+			};
 
 		    start = function() {
 			    elems = getElems();	    
@@ -193,7 +190,7 @@
 				addListeners();
 			};
 			
-		};
+		}
 
 		Awty.prototype.init = function() {	
 			var _docReadyState;	

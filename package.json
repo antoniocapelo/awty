@@ -1,0 +1,32 @@
+{
+  "name": "awty",
+  "version": "0.0.1",
+  "description": "JS Tool for adding / removing CSS classes",
+  "main": "awty.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/antoniocapelo/awty.git"
+  },
+  "keywords": [
+    "css",
+    "adding",
+    "scroll",
+    "transitions",
+    "tool"
+  ],
+  "author": "António Capelo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/antoniocapelo/awty/issues"
+  },
+  "homepage": "https://github.com/antoniocapelo/awty",
+  "dependencies": {
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-uglify": "^0.5.1"
+  }
+}
