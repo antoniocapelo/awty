@@ -26,9 +26,8 @@ The Awty constructor accepts an optional config object as an argument, which by 
 		defaultClass: 'awty',
 	}	
 
-. tidy {boolean} -> if true, detaches the 'scroll' event listener when all classes were added / removed;
-
-. defaultClass {String} -> defines the class used by the awty instance to detect which elements should be processed;
+* tidy {boolean} -> if true, detaches the 'scroll' event listener when all classes were added / removed;
+* defaultClass {String} -> defines the class used by the awty instance to detect which elements should be processed;
 
 ## Setting up the elements
 
