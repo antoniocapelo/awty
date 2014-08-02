@@ -13,7 +13,7 @@ You can find a live demo [here](http://antoniocapelo.github.io/awty)
 
 # Usage
 
-* In your html inclue the awty script: ``<script src="js/wow.min.js"></script>``
+* In your html include the awty script: ``<script src="js/wow.min.js"></script>``
 
 * Create an awty instance and initiate it: ``<script>new Awty().init();</script>``
 
@@ -43,7 +43,7 @@ Awty has 4 modes of operation:
 * **default**: adds the class as soon as the element is completely on the window viewport
 * **peek**: adds the class when a certain percentage of the element is visible:
   * ``data-awty-mode="peek"`` 
-  * ``data-awty-space="0.3"`` (space is indicated as a percentage)
+  * ``data-awty-space="0.3"`` (space is indicated as a percentage) Note: a space of 0 will apply the class(es) as soon as the element enters the viewport.
 * **margin**: adds the classe after a certain margin from the viewport's edge is reached
   * ``data-awty-mode="margin"`` 
   * ``data-awty-space="50"`` (space is indicated in px's)
