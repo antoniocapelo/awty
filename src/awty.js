@@ -69,9 +69,7 @@
 					case 'margin': 	space = space ? space : 0;
 									topBorder = rect.top - space;
 			    				 	bottomBorder = rect.bottom + space; 
-			    				 	middleLine = parseInt(rect.bottom - (rect.height / 2), 10); 
 			    				 	return (topBorder >= 0 && bottomBorder <= screenHeight);
-		    				 	   	// return ( (topBorder >= 0 && middleLine < screenHeight ) || ( bottomBorder <= screenHeight && middleLine >= 0) );
 					case 'CENTER':
 					case 'center': 	space = space ? space : 20;
 									middleLine = parseInt(rect.bottom - (rect.height / 2), 10); 
@@ -90,7 +88,7 @@
 					if(e.dataset.awty) {
 						node = {};
 						node.e = e;
-						node.mode = e.dataset.awtyMode,
+						node.mode = e.dataset.awtyMode;
 		    			node.space = parseFloat(e.dataset.awtySpace,10);
 						res.push(node);
 					}
