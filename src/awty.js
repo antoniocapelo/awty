@@ -48,7 +48,8 @@
 				var rect, 
 					topBorder,
 					bottomBorder,
-					middleScreen;
+					middleScreen,
+					screenHeight = (window.innerHeight || document.documentElement.clientHeight);
 
 			    // for jQuery element or nodelist resulted from document.querySelectorAll
 			    if (el instanceof Array || (typeof jQuery !== 'undefined' && el instanceof jQuery)) {
@@ -63,12 +64,14 @@
 			    					topBorder = rect.top + rect.height * space;
 			    				 	bottomBorder = rect.bottom - rect.height * space; 
 		    				 	 	return isElTotallyInViewport(rect) || 
-		    				 	 		( bottomBorder >= 0 && topBorder <= (window.innerHeight || document.documentElement.clientHeight) );
+		    				 	 		( bottomBorder >= 0 && topBorder <= screenHeight );
 					case 'MARGIN':
 					case 'margin': 	space = space ? space : 0;
 									topBorder = rect.top - space;
 			    				 	bottomBorder = rect.bottom + space; 
-		    				 	   	return ( topBorder >= 0 && bottomBorder <= (window.innerHeight || document.documentElement.clientHeight) );
+			    				 	middleLine = parseInt(rect.bottom - (rect.height / 2), 10); 
+			    				 	return (topBorder >= 0 && bottomBorder <= screenHeight);
+		    				 	   	// return ( (topBorder >= 0 && middleLine < screenHeight ) || ( bottomBorder <= screenHeight && middleLine >= 0) );
 					case 'CENTER':
 					case 'center': 	space = space ? space : 20;
 									middleLine = parseInt(rect.bottom - (rect.height / 2), 10); 
@@ -80,10 +83,16 @@
 
 			getElems = function() {
 				var nodeList = document.querySelectorAll('.' + _config.defaultClass),
-					res = [];
+					res = [], 
+					node;
+
 				for(var i = 0, e; e = nodeList[i]; i++) { // jshint ignore:line
 					if(e.dataset.awty) {
-						res.push(e);
+						node = {};
+						node.e = e;
+						node.mode = e.dataset.awtyMode,
+		    			node.space = parseFloat(e.dataset.awtySpace,10);
+						res.push(node);
 					}
 				}
 				return res;
@@ -169,16 +178,14 @@
 			};
 
 			handler = function() {
-		    	for(var i = 0, e ; e =  elems[i]; i++) { // jshint ignore:line
-		    		var mode = e.dataset.awtyMode,
-		    			space = parseFloat(e.dataset.awtySpace,10);
-		    		if(mode) {
-		    			if(isElInViewport(e, mode, space)) {
-		    				update(e, i);		    				
+		    	for(var i = 0, node ; node =  elems[i]; i++) { // jshint ignore:line
+		    		if(node.mode) {
+		    			if(isElInViewport(node.e, node.mode, node.space)) {
+		    				update(node.e, i);		    				
 		    			}
 		    		} else {
-			    		if(isElTotallyInViewport(e.getBoundingClientRect())) {
-				    		update(e, i);
+			    		if(isElTotallyInViewport(node.e.getBoundingClientRect())) {
+				    		update(node.e, i);
 				    	}	
 		    		}
 			    }
