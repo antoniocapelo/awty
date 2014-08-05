@@ -6,6 +6,7 @@
 	{
 		tidy: true,
 		defaultClass: 'awty',
+
 	}
 
 	tidy {boolean} -> if true, detaches the 'scroll' event listener when all classes were added / removed
@@ -20,12 +21,14 @@
 		function Awty (config) {		
 		
 			var elems, _config;
+			this.cenas = 'ya';
 
 			// Default config object
 			_config = {
-								tidy: true,
-								defaultClass: 'awty'
-							};
+						tidy: true,
+						defaultClass: 'awty',
+						fn: null
+					};
 
 			for (var key in _config) {
 				if (_config.hasOwnProperty(key)) {
@@ -135,7 +138,7 @@
 				// get classes from data-attr
 				var classes = el.dataset.awty.split(',');
 				if (el.dataset.awtyRemove && el.dataset.awtyRemove === 'true') {
-						removeClass(el, classes);					
+					removeClass(el, classes);					
 				} else {
 					addClass(el, classes);
 				}
@@ -159,6 +162,7 @@
 				    attachEvent('onscroll', handler);
 				    attachEvent('onresize', handler);
 				}
+				listening = true;
 			};
 
 			removeListeners = function() {
@@ -167,24 +171,30 @@
 				    removeEventListener('load', handler, false); 
 				    removeEventListener('scroll', handler, false); 
 				    removeEventListener('resize', handler, false); 
-				} else if (window.attachEvent)  {
+				} else if (window.detachEvent)  {
 				    detachEvent('onDOMContentLoaded', handler); // IE9+ :(
 				    detachEvent('onload', handler);
 				    detachEvent('onscroll', handler);
 				    detachEvent('onresize', handler);
 				}
+				listening = false;
 			};
 
 			handler = function() {
+				var fn;
 		    	for(var i = 0, node ; node =  elems[i]; i++) { // jshint ignore:line
-		    		if(node.mode) {
-		    			if(isElInViewport(node.e, node.mode, node.space)) {
-		    				update(node.e, i);		    				
-		    			}
-		    		} else {
-			    		if(isElTotallyInViewport(node.e.getBoundingClientRect())) {
-				    		update(node.e, i);
-				    	}	
+		    		if(node.mode && isElInViewport(node.e, node.mode, node.space)) {
+	    				update(node.e, i);		    				
+	    				if (node.fn || _config.fn) {
+	    					fn = node.fn ? node.fn : _config.fn;
+	    					fn.call(this);
+	    				}
+		    		} else if(isElTotallyInViewport(node.e.getBoundingClientRect())) {
+			    		update(node.e, i);
+			    		if (node.fn || _config.fn) {
+	    					fn = node.fn ? node.fn : _config.fn;
+	    					fn.call(this);
+	    				}
 		    		}
 			    }
 			};
@@ -194,6 +204,10 @@
 				// Listen for scrolling / loading / resizing events
 				addListeners();
 			};
+
+			updateElems = function(node) {
+				elems.push(node);
+			}
 			
 		}
 
@@ -205,6 +219,26 @@
 			} else {
 				document.addEventListener('DOMContentLoaded', start);
 			}
+	    };
+
+	    /** Registers a new element on the awty instance
+	    * @argument e - Element
+	    * @argument opts - Object
+	    *
+	    **/
+	    Awty.prototype.register = function(e, opts, fn) {
+	    	var node = {};
+	    	node.e = e;
+	    	if(e.dataset.awty) {
+				node.mode = e.dataset.awtyMode;
+    			node.space = parseFloat(e.dataset.awtySpace,10);
+			} else if (typeof opts !== 'undefined') {
+				node.mode = opts.mode || null;
+				node.space = typeof opts !== 'undefined' && typeof opts.space === 'number' ? parseFloat(opts.space,10) : 0;
+			}
+			node.fn = typeof fn === 'function' ? fn : undefined;
+			updateElems(node);
+			handler();
 	    };
 
 	    Awty.prototype.getElements = function() {	
