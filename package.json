@@ -24,9 +24,19 @@
   },
   "homepage": "https://github.com/antoniocapelo/awty",
   "dependencies": {
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt": "^0.4.5",
-    "grunt-contrib-jshint": "^0.10.0",
-    "grunt-contrib-uglify": "^0.5.1"
+  },
+  "devDependencies": {
+    "browser-sync": "^0.7.5",
+    "gulp": "^3.8.7",
+    "gulp-autoprefixer": "0.0.8",
+    "gulp-csso": "^0.2.9",
+    "gulp-jshint": "^1.8.4",
+    "gulp-load-plugins": "^0.5.3",
+    "gulp-rename": "^1.2.0",
+    "gulp-ruby-sass": "^0.7.1",
+    "gulp-sass": "^0.7.2",
+    "gulp-uglify": "^0.3.1",
+    "jshint-stylish": "^0.4.0",
+    "multipipe": "^0.1.1"
   }
 }
