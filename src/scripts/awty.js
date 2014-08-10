@@ -6,6 +6,9 @@
 	{
 		tidy: true,
 		defaultClass: 'awty',
+		fn: null
+		mobile: true,
+		desktop: true
 
 	}
 
@@ -25,7 +28,9 @@
 				_config = {
 							tidy: true,
 							defaultClass: 'awty',
-							fn: null
+							fn: null,
+							mobile: true,
+							desktop: true
 						}
 				;
 
@@ -194,14 +199,41 @@
 			};
 
 		    start = function() {
-			    elems = getElems();
-				// Listen for scrolling / loading / resizing events
-				addListeners();
+		    	// Check environment configs
+	    		if ((!isMobile.any() && _config.desktop === true) || (isMobile.any() && _config.mobile === true)) {
+				    elems = getElems();				
+					// Listen for scrolling / loading / resizing events
+					addListeners();
+				}
 			};
 
 			updateElems = function(node) {
 				elems.push(node);
 			};
+
+	    	/** Utilis **/ 
+
+	    	var isMobile = {
+			    Android: function() {
+			        return navigator.userAgent.match(/Android/i);
+			    },
+			    BlackBerry: function() {
+			        return navigator.userAgent.match(/BlackBerry/i);
+			    },
+			    iOS: function() {
+			        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+			    },
+			    Opera: function() {
+			        return navigator.userAgent.match(/Opera Mini/i);
+			    },
+			    Windows: function() {
+			        return navigator.userAgent.match(/IEMobile/i);
+			    },
+			    any: function() {
+			        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+			    }
+			};
+	    
 		}
 
 		Awty.prototype.init = function() {
@@ -212,7 +244,7 @@
 			} else {
 				document.addEventListener('DOMContentLoaded', start);
 			}
-	    };
+	    };	    
 
 	    /** Registers a new element on the awty instance
 	    * @argument e - Element
@@ -237,6 +269,7 @@
 	    Awty.prototype.getElements = function() {
 			return getElems();
 	    };
+
 
 	    return Awty;
 	})();
