@@ -259,7 +259,8 @@
     			node.space = parseFloat(e.dataset.awtySpace,10);
 			} else if (typeof opts !== 'undefined') {
 				node.mode = opts.mode || null;
-				node.space = typeof opts !== 'undefined' && typeof opts.space === 'number' ? parseFloat(opts.space,10) : 0;
+				node.space = typeof opts.space === 'number' ? parseFloat(opts.space,10) : 0;
+				node.e.dataset.awty = typeof opts.awty !== 'undefined' ? opts.awty : '';
 			}
 			node.fn = typeof fn === 'function' ? fn : undefined;
 			updateElems(node);
