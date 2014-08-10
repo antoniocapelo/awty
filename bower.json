@@ -7,11 +7,13 @@
 		".jshintrc",
 		"src",
         ".bowerrc",
+        ".sass-cache",
         ".gitignore",
         "node_modules",
         ".jshintignore",
         ".jshintrc",
         "bower.json",
+        ".bower.json",
         "gulpfile.js",
         "package.json",
         "README.md"
