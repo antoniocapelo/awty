@@ -13,7 +13,7 @@ You can find a live demo [here](http://antoniocapelo.github.io/awty)
 
 # Usage
 
-* In your html include the awty script: ``<script src="js/wow.min.js"></script>``
+* In your html include the awty script: ``<script src="js/awty/awty.min.js"></script>``
 
 * Create an awty instance and initiate it: ``<script>new Awty().init();</script>``
 
