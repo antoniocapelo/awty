@@ -13,7 +13,7 @@ You can find a live demo [here](http://antoniocapelo.github.io/awty)
 
 # Usage
 
-* In your html include the awty script: ``<script src="js/awty/awty.min.js"></script>``
+* In your html include the awty script: ``<script src="js/awty/dist/awty.min.js"></script>``
 
 * Create an awty instance and initiate it: ``<script>new Awty().init();</script>``
 
@@ -29,11 +29,11 @@ The Awty constructor accepts an optional config object as an argument, which by 
       desktop: true
     }	
 
-* tidy {boolean} -> if true, detaches the 'scroll' event listener when all classes were added / removed;
-* defaultClass {String} -> defines the class used by the awty instance to detect which elements should be processed;
-* fn {function} -> global callback which is called at every element update;
-* mobile {boolean} -> if false, disables the awty behaviour on mobile devices
-* desktop {boolean} -> if false, disables the awty behaviour on desktop devices
+* **tidy** {boolean} : if true, detaches the 'scroll' event listener when all classes were added / removed;
+* **defaultClass** {String} : defines the class used by the awty instance to detect which elements should be processed;
+* **fn** {function} : global callback which is called at every element update;
+* **mobile** {boolean} : if false, disables the awty behaviour on mobile devices;
+* **desktop** {boolean} : if false, disables the awty behaviour on desktop devices;
 
 ## Setting up the elements
 

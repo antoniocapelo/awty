@@ -2,11 +2,10 @@
 	"name": "awty",
 	"description": "JS Tool for adding/removing classes on scroll",
 	"version": "0.1.0",
-	"main": "dist",
+	"main": "dist/awty.min.js",
 	"ignore": [
 		".jshintrc",
 		"src",
-		"styles",
         ".bowerrc",
         ".gitignore",
         "node_modules",
