@@ -6,8 +6,10 @@
 	"ignore": [
 		".jshintrc",
 		"src",
+		"styles",
         ".bowerrc",
         ".gitignore",
+        "node_modules"
         ".jshintignore",
         ".jshintrc",
         "bower.json",
