@@ -1,7 +1,7 @@
 {
 	"name": "awty",
 	"description": "JS Tool for adding/removing classes on scroll",
-	"version": "0.1.0",
+	"version": "0.1.4",
 	"main": "dist/awty.min.js",
 	"ignore": [
 		".jshintrc",
@@ -17,7 +17,6 @@
         "gulpfile.js",
         "package.json",
         "README.md"
-
 	],
 	"devDependencies": {
 	    "browser-sync": "^0.7.5",
