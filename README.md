@@ -11,6 +11,13 @@ It's small (~4kB) and pretty configurable.
 You can find a live demo [here](http://antoniocapelo.github.io/awty)
 
 
+# Instalation
+
+Awty can be downloaded as a zip file - you can check the latest release [here](https://github.com/antoniocapelo/awty/releases) or you can let **bower** do the work for you, by running:
+
+  
+    bower install awty
+
 # Basic Usage
 
 * In your html include the awty script: ``<script src="js/awty/dist/awty.min.js"></script>``
