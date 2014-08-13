@@ -96,7 +96,8 @@
 						node = {
 							e: e,
 							mode: e.dataset.awtyMode,
-			    			space: parseFloat(e.dataset.awtySpace, 10)
+			    			space: parseFloat(e.dataset.awtySpace, 10),
+			    			toggle : typeof e.dataset.awtyToggle !== 'undefined' && e.dataset.awtyToggle === 'true' ? true : false
 		    			};
 						res.push(node);
 					}
@@ -139,19 +140,32 @@
 				}
 			};
 
-			update = function(el, index) {
+			update = function(node, index) {
 				// get classes from data-attr
-				var classes = el.dataset.awty.split(',');
+				var el = node.e, 
+					classes = el.dataset.awty.split(',');
 				if (el.dataset.awtyRemove && el.dataset.awtyRemove === 'true') {
 					removeClass(el, classes);
 				} else {
 					addClass(el, classes);
 				}
-				if (_config.tidy === true) {
+				// clean node from elements array case it doesn't have the 'toggle' mode active
+				if (node.toggle === false && _config.tidy === true) {
 					elems.splice(index,1);
 					if (elems.length === 0) {
 						removeListeners();
 					}
+				}
+			};
+
+			revert = function(node) {
+				// get classes from data-attr
+				var el = node.e, 
+					classes = el.dataset.awty.split(',');
+				if (el.dataset.awtyRemove && el.dataset.awtyRemove === 'true') {
+					addClass(el, classes);
+				} else {
+					removeClass(el, classes);
 				}
 			};
 
@@ -188,12 +202,14 @@
 			handler = function() {
 				var fn;
 		    	for(var i = 0, node ; node =  elems[i]; i++) { // jshint ignore:line
-		    		if((node.mode && isElInViewport(node.e, node.mode, node.space)) || isElTotallyInViewport(node.e.getBoundingClientRect())) {
-	    				update(node.e, i);
+		    		if ( (node.mode && isElInViewport(node.e, node.mode, node.space)) || ( !node.mode && isElTotallyInViewport(node.e.getBoundingClientRect()) ) ) {
+	    				update(node, i);
 	    				if (node.fn || _config.fn) {
 	    					fn = node.fn || _config.fn;
 	    					fn.call(this);
 	    				}
+		    		} else if (node.toggle) {
+		    			revert(node);
 		    		}
 			    }
 			};
