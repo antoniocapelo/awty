@@ -42,6 +42,14 @@ On the other hand, awty will remove the defined class if the **remove mode** is 
 
 To add/remove more than one class, just separate each classname by a comma (``data-awty="classname1,classname2"`` ).
 
+## Adding/Removing classes temporarily
+
+The class update for a certain element can be reverted as soon as the element position doesn't respect the awty mode applied.
+
+  * Add data-awty="classname" on the html element
+  * Define awty mode (if you want to) data-awty-mode="peek"
+  * Activate the toggle option ``data-awty-toggle="true"``
+
 ## Adding Elements afterwards
 
 Awty has a ``register`` function that lets manually add elements to its instance (for asynchronously added elements for example). 
