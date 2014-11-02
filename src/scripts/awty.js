@@ -1,5 +1,5 @@
-(function() {
-	/** 			Are We There Yet ?
+(function () {
+    /** 			Are We There Yet ?
 	 - JS Tool for adding / removing classes on scroll -
 
 	Optional Config :
@@ -17,282 +17,298 @@
 
 	**/
 
-	var Awty, root;
+    var Awty, root;
 
-	Awty = (function(){
+    Awty = (function () {
 
-		function Awty (config) {
+        function Awty(config) {
 
-			var elems,
-				// Default config object
-				_config = {
-							tidy: true,
-							defaultClass: 'awty',
-							fn: null,
-							mobile: true,
-							desktop: true
-						}
-				;
+            var elems;
+            // Default config object
+            var _config = {
+                tidy: true,
+                defaultClass: 'awty',
+                fn: null,
+                mobile: true,
+                desktop: true
+            };
+            var self = this;
 
-			for (var key in _config) {
-				if (_config.hasOwnProperty(key)) {
-					if (config && typeof config[key] !== 'undefined') {
-						_config[key] = config[key];
-					}
-				}
-			}
+            for (var key in _config) {
+                if (_config.hasOwnProperty(key)) {
+                    if (config && typeof config[key] !== 'undefined') {
+                        _config[key] = config[key];
+                    }
+                }
+            }
 
-			isElTotallyInViewport = function (rect) {
-				return (
-			        rect.top >= 0 &&
-			        rect.left >= 0 &&
-			        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-			        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-			    );
-			};
+            function isElTotallyInViewport(rect) {
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
 
-			isElInViewport = function (el, mode, space) {
-				var rect,
-					topBorder,
-					bottomBorder,
-					middleScreen,
-					screenHeight = (window.innerHeight || document.documentElement.clientHeight);
+            function isElInViewport(el, mode, space) {
+                var rect,
+                    topBorder,
+                    bottomBorder,
+                    middleScreen,
+                    screenHeight = (window.innerHeight || document.documentElement.clientHeight);
 
-			    // for jQuery element or nodelist resulted from document.querySelectorAll
-			    if (el instanceof Array || (typeof jQuery !== 'undefined' && el instanceof jQuery)) {
-			        el = el[0];
-			    }
+                // for jQuery element or nodelist resulted from document.querySelectorAll
+                if (el instanceof Array || (typeof jQuery !== 'undefined' && el instanceof jQuery)) {
+                    el = el[0];
+                }
 
-			    rect = el.getBoundingClientRect();
+                rect = el.getBoundingClientRect();
 
-			    switch (mode) {
-			    	case 'PEEK':
-			    	case 'peek': 	space = space || 0;
-			    					topBorder = rect.top + rect.height * space;
-			    				 	bottomBorder = rect.bottom - rect.height * space;
-		    				 	 	return isElTotallyInViewport(rect) ||
-		    				 	 		( bottomBorder >= 0 && topBorder <= screenHeight );
-					case 'MARGIN':
-					case 'margin': 	space = space || 0;
-									topBorder = rect.top - space;
-			    				 	bottomBorder = rect.bottom + space;
-			    				 	return (topBorder >= 0 && bottomBorder <= screenHeight);
-					case 'CENTER':
-					case 'center': 	space = space || 20;
-									middleLine = parseInt(rect.bottom - (rect.height / 2), 10);
-									middleScreen = parseInt(((window.innerHeight || document.documentElement.clientHeight)/2), 10);
-		    				 	   	return middleLine >= middleScreen - space && middleLine < middleScreen + space;
-					default: return isElTotallyInViewport(rect);
-			    }
-			};
+                switch (mode) {
+                    case 'PEEK':
+                    case 'peek':
+                        space = space || 0;
+                        topBorder = rect.top + rect.height * space;
+                        bottomBorder = rect.bottom - rect.height * space;
+                        return isElTotallyInViewport(rect) ||
+                            (bottomBorder >= 0 && topBorder <= screenHeight);
+                    case 'MARGIN':
+                    case 'margin':
+                        space = space || 0;
+                        topBorder = rect.top - space;
+                        bottomBorder = rect.bottom + space;
+                        return (topBorder >= 0 && bottomBorder <= screenHeight);
+                    case 'CENTER':
+                    case 'center':
+                        space = space || 20;
+                        middleLine = parseInt(rect.bottom - (rect.height / 2), 10);
+                        middleScreen = parseInt(((window.innerHeight || document.documentElement.clientHeight) / 2), 10);
+                        return middleLine >= middleScreen - space && middleLine < middleScreen + space;
+                    default:
+                        return isElTotallyInViewport(rect);
+                }
+            };
 
-			getElems = function() {
-				var nodeList = document.querySelectorAll('.' + _config.defaultClass),
-					res = [],
-					node;
+            self.getElements = function getElements() {
+                var nodeList = document.querySelectorAll('.' + _config.defaultClass),
+                    res = [],
+                    node;
 
-				for(var i = 0, e; e = nodeList[i]; i++) { // jshint ignore:line
-					if(e.dataset.awty) {
-						node = {
-							e: e,
-							mode: e.dataset.awtyMode,
-			    			space: parseFloat(e.dataset.awtySpace, 10),
-			    			toggle : typeof e.dataset.awtyToggle !== 'undefined' && e.dataset.awtyToggle === 'true' ? true : false
-		    			};
-						res.push(node);
-					}
-				}
-				return res;
-			};
+                for (var i = 0, e; e = nodeList[i]; i++) { // jshint ignore:line
+                    if (e.dataset.awty) {
+                        node = {
+                            e: e,
+                            mode: e.dataset.awtyMode,
+                            space: parseFloat(e.dataset.awtySpace, 10),
+                            toggle: typeof e.dataset.awtyToggle !== 'undefined' && e.dataset.awtyToggle === 'true' ? true : false
+                        };
+                        res.push(node);
+                    }
+                }
+                return res;
+            };
 
-			roundTo = function(num, to) {
-			    var remainder = num%to;
-			    if (remainder <= (to/2)) {
-			        return num-remainder;
-			    } else {
-			        return num+to-remainder;
-			    }
-			};
+            function roundTo(num, to) {
+                var remainder = num % to;
+                if (remainder <= (to / 2)) {
+                    return num - remainder;
+                } else {
+                    return num + to - remainder;
+                }
+            };
 
-			removeClass = function (el, classes) {
-				if (el.classList) {
-					for(var i = 0, c; c = classes[i]; i++) { // jshint ignore:line
-						el.classList.remove(c);
-					}
-				} else {
-					for(var i = 0, c; c = classes[i]; i++) { // jshint ignore:line
-						el.className = el.className.replace(new RegExp('(^|\\b)' + (c).split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-					}
-				}
-			};
+            function removeClass(el, classes) {
+                if (el.classList) {
+                    for (var i = 0, c; c = classes[i]; i++) { // jshint ignore:line
+                        el.classList.remove(c);
+                    }
+                } else {
+                    for (var i = 0, c; c = classes[i]; i++) { // jshint ignore:line
+                        el.className = el.className.replace(new RegExp('(^|\\b)' + (c).split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+                    }
+                }
+            };
 
-			addClass = function (el, classes) {
-				if (el.classList) {
-					for(var i = 0, c; c = classes[i]; i++) { // jshint ignore:line
-						el.classList.add(c);
-					}
+            function addClass(el, classes) {
+                if (el.classList) {
+                    for (var i = 0, c; c = classes[i]; i++) { // jshint ignore:line
+                        el.classList.add(c);
+                    }
 
-				} else {
-					for(var i = 0, c; c = classes[i]; i++) { // jshint ignore:line
-						el.className += ' ' + c;
-					}
+                } else {
+                    for (var i = 0, c; c = classes[i]; i++) { // jshint ignore:line
+                        el.className += ' ' + c;
+                    }
 
-				}
-			};
+                }
+            };
 
-			update = function(node, index) {
-				// get classes from data-attr
-				var el = node.e, 
-					classes = el.dataset.awty.split(',');
-				if (el.dataset.awtyRemove && el.dataset.awtyRemove === 'true') {
-					removeClass(el, classes);
-				} else {
-					addClass(el, classes);
-				}
-				// clean node from elements array case it doesn't have the 'toggle' mode active
-				if (node.toggle === false && _config.tidy === true) {
-					elems.splice(index,1);
-					if (elems.length === 0) {
-						removeListeners();
-					}
-				}
-			};
+            function update(node, index) {
+                // get classes from data-attr
+                var el = node.e,
+                    classes = el.dataset.awty.split(',');
+                if (el.dataset.awtyRemove && el.dataset.awtyRemove === 'true') {
+                    window.requestAnimationFrame(function () {
+                        removeClass(el, classes);
+                    })
+                } else {
+                    window.requestAnimationFrame(function () {
+                        addClass(el, classes);
+                    })
+                }
+                // clean node from elements array case it doesn't have the 'toggle' mode active
+                if (node.toggle === false && _config.tidy === true) {
+                    elems.splice(index, 1);
+                    if (elems.length === 0) {
+                        removeListeners();
+                    }
+                }
+            };
 
-			revert = function(node) {
-				// get classes from data-attr
-				var el = node.e, 
-					classes = el.dataset.awty.split(',');
-				if (el.dataset.awtyRemove && el.dataset.awtyRemove === 'true') {
-					addClass(el, classes);
-				} else {
-					removeClass(el, classes);
-				}
-			};
+            function revert(node) {
+                // get classes from data-attr
+                var el = node.e,
+                    classes = el.dataset.awty.split(',');
+                if (el.dataset.awtyRemove && el.dataset.awtyRemove === 'true') {
+                    addClass(el, classes);
+                } else {
+                    removeClass(el, classes);
+                }
+            };
 
-			addListeners = function() {
-				if (window.addEventListener) {
-				    addEventListener('DOMContentLoaded', handler, false);
-				    addEventListener('load', handler, false);
-				    addEventListener('scroll', handler, false);
-				    addEventListener('resize', handler, false);
-				} else if (window.attachEvent)  {
-				    attachEvent('onDOMContentLoaded', handler); // IE9+ :(
-				    attachEvent('onload', handler);
-				    attachEvent('onscroll', handler);
-				    attachEvent('onresize', handler);
-				}
-				listening = true;
-			};
+            function addListeners() {
+                if (window.addEventListener) {
+                    addEventListener('DOMContentLoaded', handler, false);
+                    addEventListener('load', handler, false);
+                    addEventListener('scroll', handler, false);
+                    addEventListener('touchstart', handler, false);
+                    addEventListener('touchmove', handler, false);
+                    addEventListener('resize', handler, false);
+                } else if (window.attachEvent) {
+                    attachEvent('onDOMContentLoaded', handler); // IE9+ :(
+                    attachEvent('onload', handler);
+                    attachEvent('onscroll', handler);
+                    attachEvent('touchstart', handler);
+                    attachEvent('touchmove', handler);
+                    attachEvent('onresize', handler);
+                }
+                listening = true;
+            };
 
-			removeListeners = function() {
-				if (window.removeEventListener) {
-				    removeEventListener('DOMContentLoaded', handler, false);
-				    removeEventListener('load', handler, false);
-				    removeEventListener('scroll', handler, false);
-				    removeEventListener('resize', handler, false);
-				} else if (window.detachEvent)  {
-				    detachEvent('onDOMContentLoaded', handler); // IE9+ :(
-				    detachEvent('onload', handler);
-				    detachEvent('onscroll', handler);
-				    detachEvent('onresize', handler);
-				}
-				listening = false;
-			};
+            function removeListeners() {
+                if (window.removeEventListener) {
+                    removeEventListener('DOMContentLoaded', handler, false);
+                    removeEventListener('load', handler, false);
+                    removeEventListener('scroll', handler, false);
+                    removeEventListener('touchmove', handler, false);
+                    removeEventListener('touchstart', handler, false);
+                    removeEventListener('resize', handler, false);
+                } else if (window.detachEvent) {
+                    detachEvent('onDOMContentLoaded', handler); // IE9+ :(
+                    detachEvent('onload', handler);
+                    detachEvent('onscroll', handler);
+                    detachEvent('touchmove', handler);
+                    detachEvent('touchstart', handler);
+                    detachEvent('onresize', handler);
+                }
+                listening = false;
+            };
 
-			handler = function() {
-				var fn;
-		    	for(var i = 0, node ; node =  elems[i]; i++) { // jshint ignore:line
-		    		if ( (node.mode && isElInViewport(node.e, node.mode, node.space)) || ( !node.mode && isElTotallyInViewport(node.e.getBoundingClientRect()) ) ) {
-	    				update(node, i);
-	    				if (node.fn || _config.fn) {
-	    					fn = node.fn || _config.fn;
-	    					fn.call(this);
-	    				}
-		    		} else if (node.toggle) {
-		    			revert(node);
-		    		}
-			    }
-			};
+            function handler() {
+                var fn;
+                for (var i = 0, node; node = elems[i]; i++) { // jshint ignore:line
+                    if ((node.mode && isElInViewport(node.e, node.mode, node.space)) || (!node.mode && isElTotallyInViewport(node.e.getBoundingClientRect()))) {
+                        update(node, i);
+                        if (node.fn || _config.fn) {
+                            fn = node.fn || _config.fn;
+                            fn.call(this);
+                        }
+                    } else if (node.toggle) {
+                        revert(node);
+                    }
+                }
+            };
 
-		    start = function() {
-		    	// Check environment configs
-	    		if ((!isMobile.any() && _config.desktop === true) || (isMobile.any() && _config.mobile === true)) {
-				    elems = getElems();				
-					// Listen for scrolling / loading / resizing events
-					addListeners();
-				}
-			};
+            self.start = function start() {
+                // Check environment configs
+                if ((!isMobile.any() && _config.desktop === true) || (isMobile.any() && _config.mobile === true)) {
+                    elems = self.getElements();
+                    // Listen for scrolling / loading / resizing events
+                    addListeners();
+                }
+            };
 
-			updateElems = function(node) {
-				elems.push(node);
-			};
+            function updateElems(node) {
+                elems.push(node);
+            };
 
-	    	/** Utilis **/ 
+            /** Utilis **/
 
-	    	var isMobile = {
-			    Android: function() {
-			        return navigator.userAgent.match(/Android/i);
-			    },
-			    BlackBerry: function() {
-			        return navigator.userAgent.match(/BlackBerry/i);
-			    },
-			    iOS: function() {
-			        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-			    },
-			    Opera: function() {
-			        return navigator.userAgent.match(/Opera Mini/i);
-			    },
-			    Windows: function() {
-			        return navigator.userAgent.match(/IEMobile/i);
-			    },
-			    any: function() {
-			        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-			    }
-			};
-	    
-		}
+            var isMobile = {
+                Android: function () {
+                    return navigator.userAgent.match(/Android/i);
+                },
+                BlackBerry: function () {
+                    return navigator.userAgent.match(/BlackBerry/i);
+                },
+                iOS: function () {
+                    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+                },
+                Opera: function () {
+                    return navigator.userAgent.match(/Opera Mini/i);
+                },
+                Windows: function () {
+                    return navigator.userAgent.match(/IEMobile/i);
+                },
+                any: function () {
+                    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+                }
+            };
 
-		Awty.prototype.init = function() {
-			var _docReadyState;
+        }
 
-			if ((_docReadyState = document.readyState) === 'interactive' || _docReadyState === 'complete') {
-				start();
-			} else {
-				document.addEventListener('DOMContentLoaded', start);
-			}
-	    };	    
+        Awty.prototype.init = function () {
+            var _docReadyState;
 
-	    /** Registers a new element on the awty instance
-	    * @argument e - Element
-	    * @argument opts - Object
-	    *
-	    **/
-	    Awty.prototype.register = function(e, opts, fn) {
-	    	var node = {};
-	    	node.e = e;
-	    	if(e.dataset.awty) {
-				node.mode = e.dataset.awtyMode;
-    			node.space = parseFloat(e.dataset.awtySpace,10);
-			} else if (typeof opts !== 'undefined') {
-				node.mode = opts.mode || null;
-				node.space = typeof opts.space === 'number' ? parseFloat(opts.space,10) : 0;
-				node.e.dataset.awty = typeof opts.awty !== 'undefined' ? opts.awty : '';
-			}
-			node.fn = typeof fn === 'function' ? fn : undefined;
-			updateElems(node);
-			handler();
-	    };
+            if ((_docReadyState = document.readyState) === 'interactive' || _docReadyState === 'complete') {
+                this.start();
+            } else {
+                document.addEventListener('DOMContentLoaded', this.start);
+            }
+        };
 
-	    Awty.prototype.getElements = function() {
-			return getElems();
-	    };
+        /** Registers a new element on the awty instance
+         * @argument e - Element
+         * @argument opts - Object
+         *
+         **/
+        Awty.prototype.register = function (e, opts, fn) {
+            var node = {};
+            node.e = e;
+            if (e.dataset.awty) {
+                node.mode = e.dataset.awtyMode;
+                node.space = parseFloat(e.dataset.awtySpace, 10);
+            } else if (typeof opts !== 'undefined') {
+                node.mode = opts.mode || null;
+                node.space = typeof opts.space === 'number' ? parseFloat(opts.space, 10) : 0;
+                node.e.dataset.awty = typeof opts.awty !== 'undefined' ? opts.awty : '';
+            }
+            node.fn = typeof fn === 'function' ? fn : undefined;
+            updateElems(node);
+            handler();
+        };
+
+        Awty.prototype.getElements = function () {
+            return this.getElements();
+        };
 
 
-	    return Awty;
-	})();
+        return Awty;
+    })();
 
-	root = typeof exports !== 'undefined' && exports !== null ? exports : window;
+    root = typeof exports !== 'undefined' && exports !== null ? exports : window;
 
-  	root.Awty = Awty;
+    root.Awty = Awty;
 
 }).call(this);
